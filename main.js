@@ -8,103 +8,117 @@ function toggleContactForm() {
   contactFormContainer.classList.toggle("visible");
 }
 
-openContactForm.addEventListener("click", toggleContactForm);
-floatingContact.addEventListener("click", toggleContactForm);
-closeForm.addEventListener("click", toggleContactForm);
+if (openContactForm) openContactForm.addEventListener("click", toggleContactForm);
+if (floatingContact) floatingContact.addEventListener("click", toggleContactForm);
+if (closeForm) closeForm.addEventListener("click", toggleContactForm);
 
-// Close the form when clicking outside of it
-contactFormContainer.addEventListener("click", (e) => {
-  if (e.target === contactFormContainer) {
-    toggleContactForm();
-  }
-});
+if (contactFormContainer) {
+  contactFormContainer.addEventListener("click", (e) => {
+    if (e.target === contactFormContainer) {
+      toggleContactForm();
+    }
+  });
+}
 
 // Handle form submission
 const contactForm = document.getElementById("contact-form");
-contactForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  // Here you would typically send the form data to a server
-  // For now, we'll just log it to the console and close the form
-  console.log("Form submitted:", new FormData(contactForm));
-  toggleContactForm();
-  contactForm.reset();
-});
+if (contactForm) {
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(contactForm);
+    console.log("Form submitted:", Object.fromEntries(formData));
+    toggleContactForm();
+    contactForm.reset();
+  });
+}
+
 // Smooth scrolling for all internal links
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
     const targetId = this.getAttribute("href");
     const targetElement = document.querySelector(targetId);
-    const headerOffset = 60;
-    const elementPosition = targetElement.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    if (targetElement) {
+      const headerOffset = 60;
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
   });
 });
 
 // Animate skill bars and fade-in sections
-function animateElements() {
-  const skillLevels = document.querySelectorAll(".skill-level");
-  const fadeSections = document.querySelectorAll(".fade-in");
+function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return rect.top < window.innerHeight && rect.bottom >= 0;
+}
 
+function handleAnimations() {
+  const skillLevels = document.querySelectorAll(".skill-level");
   skillLevels.forEach((skill) => {
-    const level = skill.getAttribute("data-level");
-    skill.style.width = `${level}%`;
+    if (isInViewport(skill.parentElement)) {
+      const level = skill.getAttribute("data-level");
+      skill.style.width = `${level}%`;
+    }
   });
 
+  const fadeSections = document.querySelectorAll(".fade-in");
   fadeSections.forEach((section) => {
     if (isInViewport(section) && !section.hasAttribute("data-animated")) {
       section.classList.add("visible");
       section.setAttribute("data-animated", "true");
     }
   });
+
+  const achievementSection = document.querySelector(".achievements");
+  if (achievementSection && isInViewport(achievementSection)) {
+    const achievementItems = document.querySelectorAll(
+      ".achievement-item, .certifications li"
+    );
+    achievementItems.forEach((item, index) => {
+      setTimeout(() => {
+        item.classList.add("visible");
+      }, index * 200);
+    });
+  }
 }
 
-function isInViewport(element) {
-  const rect = element.getBoundingClientRect();
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <=
-      (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
-}
+window.addEventListener("scroll", handleAnimations);
+window.addEventListener("load", handleAnimations);
 
 // Dark mode toggle
 const darkModeToggle = document.getElementById("darkModeToggle");
-darkModeToggle.addEventListener("click", () => {
-  document.documentElement.classList.toggle("dark-mode");
-  localStorage.setItem(
-    "darkMode",
-    document.documentElement.classList.contains("dark-mode")
-  );
-});
+if (darkModeToggle) {
+  darkModeToggle.addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark-mode");
+    localStorage.setItem(
+      "darkMode",
+      document.documentElement.classList.contains("dark-mode")
+    );
+  });
 
-// Check for saved dark mode preference
-if (localStorage.getItem("darkMode") === "true") {
-  document.documentElement.classList.add("dark-mode");
+  if (localStorage.getItem("darkMode") === "true") {
+    document.documentElement.classList.add("dark-mode");
+  }
 }
 
 // Scroll to top button
 const scrollToTopBtn = document.getElementById("scrollToTop");
-window.addEventListener("scroll", () => {
-  if (window.pageYOffset > 300) {
-    scrollToTopBtn.classList.add("visible");
-  } else {
-    scrollToTopBtn.classList.remove("visible");
-  }
-});
+if (scrollToTopBtn) {
+  window.addEventListener("scroll", () => {
+    if (window.pageYOffset > 300) {
+      scrollToTopBtn.classList.add("visible");
+    } else {
+      scrollToTopBtn.classList.remove("visible");
+    }
+  });
 
-scrollToTopBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-/// Run animations on load and scroll
-window.addEventListener("load", animateElements);
-window.addEventListener("scroll", animateElements);
+  scrollToTopBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
