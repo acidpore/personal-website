@@ -247,23 +247,68 @@ footer {
 }
 
 .project-card {
-    background-color: var(--background-color);
+    background-color: var(--secondary-color);
     border: 1px solid var(--accent-color);
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 20px;
-    text-align: center;
-    transition: transform 0.3s ease;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block;
 }
 
 .project-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.project-card img {
-    max-width: 100%;
-    height: auto;
+.project-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.project-content img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
     border-radius: 5px;
-    margin-bottom: 10px;
+}
+
+.project-content h3 {
+    margin: 10px 0;
+    color: var(--accent-color);
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-size: 0.8em;
+}
+
+.project-content ul {
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+.project-content ul li {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.view-project {
+    margin-top: auto;
+    color: var(--accent-color);
+    font-weight: bold;
+    text-align: right;
 }
 
 #scrollToTop {
