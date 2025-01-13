@@ -179,20 +179,45 @@ h3 {
     padding: 50px 0;
 }
 
-.skill-bar {
-    width: 100%;
-    background-color: #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    overflow: hidden;
+/* Skills section layout */
+.skills-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;  /* Skills take 2/3, Languages take 1/3 */
+    gap: 40px;
+    margin-top: 20px;
 }
 
-.skill-level {
-    height: 20px;
-    background-color: var(--accent-color);
+.skills-list {
+    flex: 2;
+}
+
+.languages-list {
+    flex: 1;
+}
+
+.skill {
+    margin-bottom: 20px;
+}
+
+.languages-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.languages-list li {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: var(--secondary-color);
     border-radius: 5px;
-    width: 0;
-    transition: width 1s ease-out;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .skills-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
 }
 
 footer {
