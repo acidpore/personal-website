@@ -179,37 +179,148 @@ h3 {
     padding: 50px 0;
 }
 
-/* Skills section layout */
+/* Skills section layout and styling */
+.skills {
+    background: linear-gradient(135deg, var(--background-color), var(--secondary-color));
+    padding: 60px 0;
+}
+
 .skills-container {
     display: grid;
-    grid-template-columns: 2fr 1fr;  /* Skills take 2/3, Languages take 1/3 */
+    grid-template-columns: 1fr 1fr;
+    /* Changed to equal width columns */
     gap: 40px;
     margin-top: 20px;
 }
 
 .skills-list {
-    flex: 2;
-}
-
-.languages-list {
-    flex: 1;
+    background-color: var(--secondary-color);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    /* Ensure same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .skill {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.skill:last-child {
+    margin-bottom: 0;
+}
+
+.skill p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.skill p::after {
+    content: attr(data-level) "%";
+    color: var(--accent-color);
+}
+
+.skill-bar {
+    width: 100%;
+    height: 12px;
+    background-color: var(--background-color);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.skill-level {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-color), #87CEEB);
+    border-radius: 6px;
+    position: relative;
+    width: 0;
+    transition: width 1.5s cubic-bezier(0.1, 0.5, 0.2, 1);
+}
+
+.skill-level::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    animation: shimmer 2s infinite;
+}
+
+.languages-list {
+    background-color: var(--secondary-color);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    /* Ensure same height */
+    display: flex;
+    flex-direction: column;
+}
+
+.languages-list h3 {
+    color: var(--accent-color);
     margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color);
 }
 
 .languages-list ul {
     list-style: none;
     padding: 0;
+    flex-grow: 1;
+    /* Allow list to fill space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* Distribute items evenly */
 }
 
 .languages-list li {
     margin-bottom: 15px;
-    padding: 10px;
-    background-color: var(--secondary-color);
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    background: linear-gradient(135deg, var(--secondary-color), var(--background-color));
+    border-radius: 8px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.languages-list li:last-child {
+    margin-bottom: 0;
+}
+
+.languages-list li::before {
+    content: '🔸';
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.languages-list li:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 /* Responsive design */
@@ -217,6 +328,11 @@ h3 {
     .skills-container {
         grid-template-columns: 1fr;
         gap: 30px;
+    }
+
+    .skills-list,
+    .languages-list {
+        padding: 20px;
     }
 }
 
@@ -299,13 +415,15 @@ footer {
     background-color: var(--background-color);
 }
 
-.achievement-item, .certifications li {
+.achievement-item,
+.certifications li {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.achievement-item.visible, .certifications li.visible {
+.achievement-item.visible,
+.certifications li.visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -387,7 +505,7 @@ footer {
     .certifications ul {
         grid-template-columns: 1fr;
     }
-    
+
     .achievement-item {
         padding: 20px;
     }
